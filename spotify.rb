@@ -8,7 +8,9 @@ require 'gli'
 class Spotifyfs
   def self.spotifycli(command)
     data = `spotifycli #{command}`.lines
+
     data.shift
+    data.reject! {|l| l.strip.empty? }
 
     field_widths = data.first.split.map(&:size)
 
@@ -32,11 +34,10 @@ class Spotifyfs
   def self.get_playlist_contents(playlist)
     data = spotifycli("list --p '#{playlist}'")
     data.map do |entry|
-      content = `spotifycli show --tid #{entry[0]}`
       {
         "name"    => entry[1],
-        "methods" => [["read", content]],
-        "attributes" => { "size" => content.size }, # This is rather expensive. Can we just guess about the size?
+        "methods" => ["read"],
+        "attributes" => { "size" => 4000 }, # This is rather expensive. Can we just guess about the size?
         "state"   => "{\"id\":\"#{entry[0]}\"}",
       }
     end
