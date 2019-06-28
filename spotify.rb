@@ -14,7 +14,7 @@ class Spotifyfs
 
     field_widths = data.first.split.map(&:size)
 
-    data[3..-3].map do |line|
+    data[3..-2].map do |line|
       field_widths.map do |width|
         line.slice!(0, width+2).strip
       end
@@ -93,7 +93,6 @@ class App
     rescue
       # nop
     end
-
   end
 
   command :init do |c|
