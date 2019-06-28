@@ -41,12 +41,15 @@ class Spotifyfs
     end
   end
 
+  def self.get_track_by_id(id)
+    `spotifycli show --tid '#{id}'`
+  end
+
   def self.get_track(playlist, track)
-    # TODO: Use state, so that we don't have to list the playlist again here
     list = spotifycli("list --p '#{playlist}'")
     tid  = list.find {|entry| entry[1] == track}
 
-    `spotifycli show --tid '#{tid[0]}'`
+    self.get_track_by_id(tid[0])
   end
 
   def self.get_namespaces
@@ -121,11 +124,15 @@ class App
 
   command :read do |c|
     c.action do |global_options,options,args|
-      fs, namespace, playlist, track = self.tokenize(args.first)
+      fs, namespace, playlist, track = self.tokenize(args.shift)
+      state = JSON.parse(args.shift) rescue {}
 
       raise "This... can't happen?" unless fs == 'spotify'
+      raise "Only support reading tracks" unless track
 
-      if track
+      if state.include? 'id'
+        puts Spotifyfs.get_track_by_id(state['id'])
+      else
         puts Spotifyfs.get_track(playlist, track)
       end
     end
