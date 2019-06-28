@@ -6,7 +6,7 @@ Implements a Spotify filesystem for Wash
 This requires my own fork of [spotifycli](https://github.com/binford2k/spotifycli)
 to be installed and on your `$PATH`. ([upstream pull requests](https://github.com/masroorhasan/spotifycli/pulls))
 
-Then simply drop the `spotifyfs.rb` script somewhere in your path.
+Then simply drop the `spotify.rb` script somewhere in your path.
 
 ## Configuring
 
@@ -17,8 +17,8 @@ Then configure your `~/.puppetlabs/wash/wash.yaml` with that info:
 
 ```
 external-plugins:
-  - script: '/Users/ben/bin/spotifyfs.rb'
-spotifyfs:
+  - script: '/Users/ben/bin/spotify.rb'
+spotify:
   key: <Client ID from Spotify>
   secret: <Client Secret from Spotify>
 ```
