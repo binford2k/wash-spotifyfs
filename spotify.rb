@@ -32,10 +32,11 @@ class Spotifyfs
   def self.get_playlist_contents(playlist)
     data = spotifycli("list --p '#{playlist}'")
     data.map do |entry|
+      content = `spotifycli show --tid #{entry[0]}`
       {
         "name"    => entry[1],
-        "methods" => ["read"],
-        "attributes" => { "size" => `spotifycli show --tid #{entry[0]}`.size }, # This is rather expensive. Can we just guess about the size?
+        "methods" => [["read", content]],
+        "attributes" => { "size" => content.size }, # This is rather expensive. Can we just guess about the size?
         "state"   => "{\"id\":\"#{entry[0]}\"}",
       }
     end
@@ -85,7 +86,7 @@ class App
 
   pre do |global_options,command,options,args|
     begin
-      config = YAML.load_file(File.expand_path('.puppetlabs/wash/wash.yaml'))['spotifyfs']
+      config = YAML.load_file(File.expand_path('.puppetlabs/wash/wash.yaml'))['spotify']
       ENV['SPOTIFY_ID']     = config['key']
       ENV['SPOTIFY_SECRET'] = config['secret']
     rescue
