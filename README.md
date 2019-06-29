@@ -1,5 +1,5 @@
 # wash-spotifyfs
-Implements a Spotify filesystem for Wash
+Implements a Spotify filesystem for [Wash](https://github.com/puppetlabs/wash)
 
 ## Installing
 
