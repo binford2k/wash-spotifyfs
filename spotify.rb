@@ -37,14 +37,25 @@ class Spotifyfs
       {
         "name"    => entry[1],
         "methods" => ["read"],
-        "attributes" => { "size" => 4000 }, # This is rather expensive. Can we just guess about the size?
+        "attributes" => { "size" => 4096 }, # This is rather expensive. Can we just guess about the size?
         "state"   => "{\"id\":\"#{entry[0]}\"}",
       }
     end
   end
 
   def self.get_track_by_id(id)
-    `spotifycli show --tid '#{id}'`
+    data = spotifycli("show --tid '#{id}'").flatten
+
+    txt  = data[1]
+    txt << "\n#{'-'*data[1].size}\n"
+    txt << "Album     : #{data[2]}\n"
+    txt << "Artist    : #{data[3]}\n"
+    txt << "Duration  : #{data[4]}\n"
+    txt << "Popularity: #{data[5]}%\n"
+    txt << "Explicit  : #{data[6]}\n"
+    txt << "Track ID  : #{data[0]}\n"
+    txt << "\n#{data[7]}\n" unless data[7].empty?
+    txt
   end
 
   def self.get_track(playlist, track)
@@ -97,6 +108,7 @@ class App
 
   command :init do |c|
     c.action do |global_options,options,args|
+      `spotifycli login` unless File.file?(File.expand_path('~/.sptok'))
       puts Spotifyfs.get_root.to_json
     end
   end
