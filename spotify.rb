@@ -38,6 +38,11 @@ class Spotifyfs
         "name"    => entry[1],
         "methods" => ["read"],
         "state"   => "{\"id\":\"#{entry[0]}\"}",
+        "partial_metadata": {
+          "Album": entry[2],
+          "Artist": entry[3],
+          "Popularity": entry[4].to_i,
+        },
       }
     end
   end
