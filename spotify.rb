@@ -37,7 +37,6 @@ class Spotifyfs
       {
         "name"    => entry[1],
         "methods" => ["read"],
-        "attributes" => { "size" => 4096 }, # This is rather expensive. Can we just guess about the size?
         "state"   => "{\"id\":\"#{entry[0]}\"}",
       }
     end
@@ -98,7 +97,7 @@ class App
 
   pre do |global_options,command,options,args|
     begin
-      config = YAML.load_file(File.expand_path('.puppetlabs/wash/wash.yaml'))['spotify']
+      config = YAML.load_file(File.expand_path('~/.puppetlabs/wash/wash.yaml'))['spotify']
       ENV['SPOTIFY_ID']     = config['key']
       ENV['SPOTIFY_SECRET'] = config['secret']
     rescue
