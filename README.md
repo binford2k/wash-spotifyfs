@@ -3,15 +3,15 @@ Implements a Spotify filesystem for [Wash](https://github.com/puppetlabs/wash)
 
 ## Installing
 
-This requires my own fork of [spotifycli](https://github.com/binford2k/spotifycli)
-to be installed and on your `$PATH`. ([upstream pull requests](https://github.com/masroorhasan/spotifycli/pulls))
-
-Then simply drop the `spotify.rb` script somewhere in your path.
+This requires [spotifycli](https://github.com/masroorhasan/spotifycli)
+to be installed and on your `$PATH`. You'll also need to install the
+`gli` gem.
 
 ## Configuring
 
-First you'll need a Spotify account and to [register your application](https://beta.developer.spotify.com/dashboard/login).
-You'll need the client `id` and `secret`.
+First you'll need a Spotify account and to [register your application](https://beta.developer.spotify.com/dashboard/login)
+(make sure to whitelist the 'http://localhost:8080/callback' URL).
+You'll also need the client `id` and `secret`.
 
 Then configure your `~/.puppetlabs/wash/wash.yaml` with that info:
 
